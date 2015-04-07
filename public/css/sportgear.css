@@ -1,0 +1,603 @@
+/*css for sportgear*/
+
+html *
+{
+	margin: 0;
+	padding: 0;
+	border:none;
+	text-decoration: none;
+	list-style: none;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing:    border-box;
+	box-sizing:         border-box;
+}
+
+a:link,
+a:visited,
+a:hover,
+a:active
+{
+	text-decoration: none;
+}
+
+body
+{
+	font-family: Arial, sans-serif;
+	font-weight: normal;
+}
+
+.clearFix:after
+{
+	display: block;
+	clear: both;
+	content: " ";
+	visibility: hidden;
+	height: 0;
+	line-height: 0;
+}
+
+/******************************************************************************/
+/*general setting starts*/
+#top-menu,
+header,
+#wrapper,
+footer
+{
+	width: 960px;
+	margin: 0 auto;
+}
+
+/*top navigation***************************************************************/
+
+#top-menu-container
+{
+	position: fixed;
+	top: 0;
+	z-index: 10000;
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	font-weight: bold;
+	color: #fff;
+	background-color: #242424;
+}
+
+	#top-menu ul li
+	{
+		display: block;
+		position: relative;
+		float: left;
+	}
+
+		#top-menu li ul
+		{
+			display: none;
+		}
+
+		#top-menu ul li a
+		{
+			display: block;
+			background: #242424;
+			padding: 0 10px;
+			text-decoration: none;
+			white-space: nowrap;
+			color: #fff;
+		}
+
+		#top-menu ul li a:hover
+		{
+			background: #fff;
+			color: #242424
+		}
+
+	#top-menu li:hover ul
+	{
+		display: block;
+		position: absolute;
+	}
+
+		#top-menu li:hover li
+		{
+			float: none;
+		}
+
+	#top-menu li:hover a
+	{
+		background:#242424;
+		color: #fff;
+	}
+
+		#top-menu li:hover li a:hover
+		{
+			background: #fff;
+			color: #242424;
+		}
+
+.float-right
+{
+	float: right;
+}
+
+/*top navigation ends here*/
+/*******************************************************/
+/*header starts here*/
+header
+{
+	height: 120px;
+	margin-top: 40px;
+}
+
+header h1,
+header #search,
+header #clock
+{
+	width: 320px;
+	float: left;
+}
+
+	header h1 a,
+	header h1 a:hover,
+	header h1 a:active
+	{
+		display: block;
+		width: 100%;
+		height: 120px;
+		font-size: 0;
+		background: #fff;
+		background: url(../images/sportgear.jpg) no-repeat center center;
+	}
+
+	header #search form
+	{
+		display: block;
+		width: 260px;
+		height: 30px;
+		margin: 45px 0 0 60px;
+		text-align: center;
+		border:1px solid #242424;
+		position: relative;
+	}
+
+	header #search form input
+	{
+		height: 100%;
+	}
+
+	header #search form input
+	{
+		width: 205px;
+		margin: 0;
+	}
+	header #search form input:focus
+	{
+		outline:0;
+	}
+	header #search form button
+	{
+		height: 24px;
+		padding: 0 4px;
+		background: #fff;
+		border-left: 1px solid #242424;
+	}
+
+	header #search form button:hover
+	{
+		background: #ccc;
+	}
+
+	header #search form button.close-icon
+	{
+		border:1px solid transparent;
+		background-color: transparent;
+		display: inline-block;
+		vertical-align: middle;
+  		outline: 0;
+ 		cursor: pointer;
+	}
+
+	header #search form button.close-icon:after
+	{
+		content: "X";
+		display: block;
+		width: 16px;
+		height: 16px;
+		position: absolute;
+		background-color: #FA9595;
+		z-index:1;
+		right: 35px;
+		top: 0;
+		bottom: 0;
+		margin: auto;
+		padding: 1px;
+		border-radius: 50%;
+		text-align: center;
+		color: white;
+		font-weight: normal;
+		font-size: 12px;
+		box-shadow: 0 0 2px #E50F0F;
+		cursor: pointer;
+	}
+
+	header #search form #site-search:not(:focus) ~ .close-icon 
+	{
+		display: none;
+	}
+
+	header #clock
+	{
+		font-size: 18px;
+		font-weight: bold;
+		text-align: right;
+		line-height: 120px;
+	}
+/*header ends here*/
+/****************************************************/
+/**main body part starts**/
+/*IE does not support main tag*/
+#wrapper
+{
+	min-height: 640px;
+	margin: 20px auto;
+}
+
+#wrapper .info
+{
+	color:#f00;
+	font-weight: bold;
+	letter-spacing: 2px;
+}
+
+#wrapper .page-title
+{
+	margin-bottom: 20px;
+}
+
+/****************************************************/
+/*footer starts here*/
+#footer-container
+{
+	background: #242424;
+}
+
+footer
+{
+	padding: 30px;
+	color: #fff;
+}
+
+	footer article
+	{
+		float: left;
+		width: 225px;
+		min-height: 180px;
+		text-align: left;
+	}
+
+		footer article h3
+		{
+			font-size: 1.2em;
+			margin-bottom: 15px;
+		}
+
+	footer a
+	{
+		font-size: 14px;
+		padding: 2px;
+		color: #fff;
+	}
+
+	footer a:link,
+	footer a:visited,
+	footer a:hover,
+	footer a:active
+	{
+		display: block;
+		color: #fff;
+		text-decoration: none;
+	}
+
+	footer a:hover,
+	footer a:active
+	{
+		font-size: 16px;
+		padding: 0;
+	}
+
+	footer #social-media
+	{
+		position: fixed;
+		top: 100px;
+		left: 15px;
+	}
+
+	footer #copyright
+	{
+		clear: both;
+		padding-top: 30px;
+		text-align: center;
+	}
+/*footer ends here*/
+/***********************************************************/
+/*homepage starts here*/
+#myCarousel img
+{
+	width: 960px;
+	height: 540px;
+}
+
+#video
+{
+	height: 540px;
+	margin: 5px 0;
+}
+
+	#video iframe,
+	#video article
+	{
+		width: 50%;
+		height: 50%;
+		float: left;
+	}
+
+	#video article
+	{
+		padding: 20px;
+		overflow: hidden;
+	}
+
+		#video article h2
+		{
+			margin-bottom: 15px;
+		}
+
+#category
+{
+	height: 240px;
+	margin: 10px 0;
+}
+
+	#category a
+	{
+		color: #242424;
+	}
+
+	#category h2
+	{
+		height: 240px;
+		text-align: center;
+		background: rgba(255,255,255,0.1);
+		border-radius: 10px;
+	}
+
+		#category h2:hover ,
+		#category h2:active 
+		{
+			color: #fff;
+			background: rgba(0,0,0,0.3);
+		}
+
+	#category .category
+	{
+		width: 184px;
+		height: 100%;
+		margin: 0 4px;
+		border: 2px solid #fff;
+		border-radius: 10px;
+		float: left;
+	}
+
+	#category .category_racquet
+	{
+		background: url(../images/cate/racquet.jpg) no-repeat;
+	}
+
+	#category .category_ball
+	{
+		background: url(../images/cate/ball.jpg) no-repeat center center;
+	}
+
+	#category .category_footwear
+	{
+		background: url(../images/cate/footwear.jpg) no-repeat center center;
+	}
+
+	#category .category_clothing
+	{
+		background:url(../images/cate/clothing.jpg) no-repeat center center;
+	}
+
+	#category .category_accessory
+	{
+		background: url(../images/cate/accessory.jpg) no-repeat center center;
+	}
+
+#product-display
+{
+	width: 100%;
+	height: 240px;
+	overflow: hidden;
+	position: relative;
+}
+
+	#product-display h4
+	{
+		position: absolute;
+		bottom: 15px;
+		width: 100%;
+		color: #f00;
+		font-weight: bold;
+	}
+
+	#product-display img
+	{
+		width: 180px;
+		height: auto;
+		margin: auto;
+	}
+/*homepage ends here*/
+/**************************************************************************/
+/**contact page starts here*/
+.mainform
+{
+	margin: 20px 0;
+	padding: 20px;
+	border:1px solid #242424;
+}
+
+	.mainform fieldset
+	{
+		padding: 20px;
+		border:1px dashed #242424;
+	}
+
+	.mainform legend
+	{
+		width: 300px;
+		font-size: 1.3em;
+		font-weight: bold;
+		border: 1px dashed #242424;
+		border-radius: 10px;
+		padding: 5px 10px;
+		background: #fff;
+	}
+
+	.mainform p
+	{
+		margin: 5px 0;
+	}
+
+	.mainform label
+	{
+		width: 150px;
+		display: inline-block;
+		float: left;
+	}
+
+	.mainform input
+	{
+		width: 200px;
+		border: 1px solid #242424;
+		border-radius: 5px;
+	}
+
+	.mainform textarea
+	{
+		width: 50%;
+		height: 100px;
+		border: 1px solid #242424;
+		border-radius: 5px;
+	}
+
+	.mainform .buttons
+	{
+		padding-left: 150px;
+	}
+
+	.mainform button
+	{
+		padding: 5px 10px;
+		font-weight: bold;
+	}
+
+	.mainform button:hover
+	{
+		color: #fff;
+		background: #242424;
+	}
+
+.error
+{
+	display: none;
+	margin-left: 5px;
+}
+
+.error_show
+{
+	color:#f00;
+	margin-left: 5px;
+}
+
+input.invalid, textarea.invalid
+{
+	border:2px solid #f00;
+}
+
+input.valid, textarea.valid
+{
+	background-color: lightgreen;
+}
+
+/*map*/
+#map-canvas
+{
+	width: 100%;
+	height: 540px;
+}
+
+.controls 
+{
+	margin-top: 16px;
+    border: 1px solid transparent;
+    border-radius: 2px 0 0 2px;
+    height: 32px;
+    outline: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+#map-input 
+{
+	background-color: #fff;
+	font-size: 15px;
+	font-weight: 300;
+	margin-left: 12px;
+	padding: 0 11px 0 13px;
+	text-overflow: ellipsis;
+	width: 25%;
+}
+
+#map-input:focus 
+{
+	border-color: #4d90fe;
+}
+
+#type-selector 
+{
+	color: #fff;
+	background-color: #4d90fe;
+	padding: 5px 11px 0px 11px;
+}
+
+#type-selector label 
+{
+	font-size: 13px;
+	font-weight: 300;
+}
+
+#target
+{
+	width: 345px;
+}
+
+/*************************************************/
+/*add new product*/
+#brands-select
+{
+	width: 150px;
+	float: left;
+	clear: right;
+	border: 1px solid #242424;
+}
+
+#category1-select
+{
+	width: 150px;
+	float: left;
+	clear: right;
+	border: 1px solid #242424;
+}
+
+label.mainform-label
+{
+	padding-left: 0;
+	font-weight: bold;
+}
