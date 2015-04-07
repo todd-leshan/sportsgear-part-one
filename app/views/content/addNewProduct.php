@@ -1,6 +1,6 @@
 <div id="wrapper" class="clearFix">
 
-<form id="addNewProduct" class="mainform" method="post" action="<?php echo ROOT.'staff/addNewProducts'; ?>" enctype="multipart/form-data">
+<form id="addNewProduct" class="mainform" method="post" action="<?php echo ROOT.'product/addNewProducts'; ?>" enctype="multipart/form-data">
 	<fieldset>
 		<legend>Add a new product:</legend>
 		<p>

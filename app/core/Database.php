@@ -2,7 +2,9 @@
 
 class Database
 {
-	public function connect()
+	protected $_conn;
+
+	public function __construct()
 	{
 		//generate a connect $conn
 		$dsn      = "mysql:host=localhost; dbname=sportgear; charset=utf8";
@@ -11,21 +13,18 @@ class Database
 
 		try
 		{
-			$conn = new PDO($dsn, $username, $password);
-			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$this->_conn = new PDO($dsn, $username, $password);
+			$this->_conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			//set fetch mode, when setting to FETCH_ASSOC, when printing out, may not be good
 			//$conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-
-			return $conn;
 		}
 		catch(PDOException $e)
 		{
 			echo "Failed to connect database: ".$e->getMessage();
 		}
-
-		//return $conn;
-
 	}
+
+
 
 	/*
 	*$return
@@ -33,32 +32,15 @@ class Database
 	*2 fetchColumn()
 	*3 fecth()
 	*/
-	public function executeSQL($conn, $prepareSQL, $param = [], $return = 1)
+	public function executeSQL($prepareSQL, $param = [])
 	{
 		try 
 		{
-			$sql = $conn->prepare($prepareSQL);
+			$sql = $this->_conn->prepare($prepareSQL);
 			$sql->execute($param);
 
-			switch ($return)
-			{
-				case 1:
-					$results = $sql->fetchAll();
-					break;
-
-				case 2:
-					$results = $sql->fetchColumn();
-					break;
-
-				case 3:
-					$results = $sql->fetch();
-					break;
-
-				default:
-					$results = $sql->fetchAll();
-					break;
-			}
-			return $results;
+			$rows = $sql->fetchAll();
+			return $rows;
 		} 
 		catch (PDOException $e) 
 		{

@@ -2,25 +2,27 @@
 
 <table>
 	<tr>
-		<th>Name</th>
-		<th>Price</th>
-		<th>Description</th>
-		<th>Photo</th>
-		<th>Brand</th>
-		<th>Category</th>
-		<th>Sport</th>
+		<th class="productName">Name</th>
+		<th class="productPrice">Price</th>
+		<th class="productDesc">Description</th>
+		<th class="productPhoto">Photo</th>
+		<th class="productbrand">Brand</th>
+		<th class="productCate1">Category</th>
+		<th class="productCate2">Sport</th>
+		<th></th>
 	</tr>
 <?php 
 foreach ($products as $product) :
 ?>	
 	<tr>
-		<th><?php echo $product['name'] ?></th>
-		<th><?php echo '$'.$product['price'] ?></th>
-		<th><?php echo $product['description'] ?></th>
-		<th><img src="/sportsgear/public/images/product/<?php echo $category1[$product['category1ID']]['cate1'].'/'.$photos[$product['photoID']]['name']; ?>" alt="<?php echo $photos[$product['photoID']]['alt'];?>"></th>
-		<th><?php echo $brands[$product['brandID']]['brandName']; ?></th>
-		<th><?php echo $category1[$product['category1ID']]['cate1']; ?></th>
-		<th><?php echo $category2[$product['category2ID']]['cate2']; ?></th>
+		<td><?php echo $product['name'] ?></td>
+		<td><?php echo '$'.$product['price'] ?></td>
+		<td><?php echo $product['description'] ?></td>
+		<td><img src="/sportsgear/public/images/product/<?php echo $category1[$product['category1ID']]['cate1'].'/'.$photos[$product['photoID']]['name']; ?>" alt="<?php echo $photos[$product['photoID']]['alt'];?>"></td>
+		<td><?php echo $brands[$product['brandID']]['brandName']; ?></td>
+		<td><?php echo $category1[$product['category1ID']]['cate1']; ?></td>
+		<td><?php echo $category2[$product['category2ID']]['cate2']; ?></td>
+		<td><a href="<?php echo ROOT.'product/editProduct/'.$product['productID']; ?>">Edit</a></td>
 	</tr>
 <?php
 endforeach;

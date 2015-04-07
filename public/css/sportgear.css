@@ -601,3 +601,46 @@ label.mainform-label
 	padding-left: 0;
 	font-weight: bold;
 }
+
+/***************************************************************/
+/*products management*/
+/*this part may contain problems,,need to be checked*/
+table
+{
+	width: 100%;
+	border: 1px solid #242424;
+	border-collapse: collapse;
+}
+
+table tr,
+table th,
+table td
+{
+	border: 1px solid #242424;
+}
+
+table tr th
+{
+	font-size: 1.2em;
+	text-align: center;
+}
+
+table .productName,
+table .productPrice,
+table .productBrand,
+table .prodcutCate1,
+table .productCate2
+{
+	width: 10%;
+}
+
+table .productDesc,
+table .productPhoto
+{
+	max-width: 25%;
+}
+
+table img
+{
+	max-width: 240px;
+}
