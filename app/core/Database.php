@@ -1,36 +1,24 @@
 <?php
 
+require_once __DIR__."/DB.php";
+
 class Database
 {
-	protected $_conn;
+	private $_conn;
 
 	public function __construct()
 	{
-		//generate a connect $conn
-		$dsn      = "mysql:host=localhost; dbname=sportgear; charset=utf8";
-		$username = "root";
-		$password = "";
+		$this->_conn = DB::getConnection();
+	}
 
-		try
-		{
-			$this->_conn = new PDO($dsn, $username, $password);
-			$this->_conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			//set fetch mode, when setting to FETCH_ASSOC, when printing out, may not be good
-			//$conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-		}
-		catch(PDOException $e)
-		{
-			echo "Failed to connect database: ".$e->getMessage();
-		}
+	public function __destruct()
+	{
+		DB::disconnect();
 	}
 
 
-
 	/*
-	*$return
-	*1 fetchALL() by default
-	*2 fetchColumn()
-	*3 fecth()
+	*return an array
 	*/
 	public function executeSQL($prepareSQL, $param = [])
 	{
@@ -48,11 +36,21 @@ class Database
 		}	
 	}
 
+	public function select($table)
+	{
+		$sql = "SELECT *
+				FROM $table";
+
+		$rows = $this->executeSQL($sql);
+
+		return $rows;
+	}
+
 	/*
 	*insert into database and return the last insert ID
 	*@param: $conn, $prepareSQL, $param
 	*/
-	public function insert($conn, $table, $data)
+	public function insert($table, $data)
 	{
 		$columns = array();
 		$values  = array();
@@ -68,18 +66,21 @@ class Database
 
 		$prepare = "INSERT INTO $table($column) VALUES($qs)";
 
-		$query = $conn->prepare($prepare);
+		$query = $this->_conn->prepare($prepare);
 
 		$query->execute($values);
 
-		$newID = $conn->lastInsertId();
+		$newID = $this->_conn->lastInsertId();
 
 		return $newID;		
 	}
 
+
+
 	/*
 	*check sth's existence
 	*/
+	/*
 	public function isExist($conn, $table, $data)
 	{
 		$columns = array();
@@ -95,6 +96,7 @@ class Database
 
 		$prepare = "SELECT * FROM {$table} WHERE {}";
 	}
+	*/
 
 	/*
 More functions need to be defined here

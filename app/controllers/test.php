@@ -14,14 +14,30 @@ class Test extends Controller
 		}
 		*/
 		//$login = 
-		$test = $this->model("ProductModel");
+		$test = $this->model("BrandDAO");
 
 		
-		$brands = $test->getAll('brands');
+		$brands = $test->getBrands();
 		foreach ($brands as $brand) 
 		{
-			echo $brand['brandID']."~".$brand['brandName']."<br><hr>";
+			echo "id is ".$brand->getId()." name=".$brand->getName()."<br><hr>";
 		}
 		//print_r($login);
+	}
+
+	public function photo()
+	{
+		$photo = $this->model("PhotoDAO");
+
+		$isExist = $photo->isExist("xhead-championship-4-ball-can.jpg");
+
+		if($isExist)
+		{
+			echo "good";
+		}
+		else
+		{
+			echo "bad";
+		}
 	}
 }

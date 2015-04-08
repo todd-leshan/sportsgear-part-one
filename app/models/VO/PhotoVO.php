@@ -7,7 +7,7 @@ class PhotoVO
 	private $_alt;
 	private $_description;
 
-	public function __construct($name, $alt, $description)
+	public function __construct($name, $alt, $description, $id = 0)
 	{
 		$this->_name = $name;
 		$this->_alt  = $alt;
