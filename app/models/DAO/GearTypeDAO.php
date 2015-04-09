@@ -2,14 +2,14 @@
 
 require_once __DIR__."/../VO/GearTypeVO.php";
 
-class GearTypeDAO extends Database
+class GearTypeDAO extends CRUD
 {
 	public function __construct()
 	{
 		parent::__construct();
 	}
 
-	public function getGearType()
+	public function getGearTypes()
 	{
 		$rows = $this->select("gearTypes");
 

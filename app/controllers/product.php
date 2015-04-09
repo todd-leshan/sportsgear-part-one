@@ -48,12 +48,20 @@ class Product extends Controller
 	/*
 	*add new products
 	*/
-	public function addNewProducts()
+	public function addProducts()
 	{
 		//check all data passed here
 		//if data detected, load model
-		$model = $this->model('ProductModel');
+		$productDAO  = $this->model('ProductDAO');
+		$brandDAO    = $this->model('BrandDAO');
+		$gearTypeDAO = $this->model('gearTypeDAO');
+		$sportTypeDAO= $this->model('sportTypeDAO');
 
+		$brands    = $brandDAO->getBrands();
+		$gearTypes = $gearTypeDAO->getGearTypes();
+		$sportTypes= $sportTypeDAO->getSportTypes();
+
+		//photo upload
 		if( 
 			isset($_POST['newproduct_name']) &&
 			isset($_POST['newproduct_price']) &&
@@ -66,8 +74,9 @@ class Product extends Controller
 			isset($_POST['photo_description'])
 			)
 		{
-			$category1ID = $_POST['newproduct_cate1'];
-			$file        = $_FILES['newproduct_photo'];
+			$gearTypeID = $_POST['newproduct_cate1'];
+			$gearType   = $gearTypes[$gearTypeID]->getName();
+			$file       = $_FILES['newproduct_photo'];
 			//upload image first to get imageID
 			$photo = array(
 					'name'        => $_FILES['newproduct_photo']['name'],
@@ -75,7 +84,7 @@ class Product extends Controller
 					'description' => $_POST['photo_description']
 				);
 			
-			$photoID = $this->uploadImage($model, $file, $photo, $category1ID);			
+			$photoID = $this->uploadImage($file, $photo, $gearType);			
 
 			//then insert new product
 			$product = array(
@@ -83,11 +92,11 @@ class Product extends Controller
 					'price'       => $_POST['newproduct_price'],
 					'description' => $_POST['newproduct_description'],
 					'brandID'     => $_POST['newproduct_brand'],
-					'category1ID' => $category1ID,
-					'category2ID' => $_POST['newproduct_cate2'],
+					'gearTypeID'  => $gearTypeID,
+					'sportTypeID' => $_POST['newproduct_cate2'],
 					'photoID'     => $photoID
 					);
-			$newProductID = $model->addNewProduct($product);
+			$newProductID = $productDAO->addProduct($product);
 			//die("error: ".$newProductID);
 			if($newProductID == false)
 			{
@@ -105,20 +114,15 @@ class Product extends Controller
 		//if not, go back to the view; or when error found, go back the view with error
 		//if(1!=1){}
 		//always load the add form
-		
 
-		$brands = $model->getAll('brands');
-		$cate1  = $model->getAll('category1');
-		$cate2  = $model->getAll('category2');
-
-		if($brands && $cate1 && $cate2)
+		if($brands && $gearTypes && $sportTypes)
 		{
 			$data = array(
 				'title'   => "SportGear-Add new products",
 				'mainView'=> 'addNewProduct',
 				'brands'  => $brands,
-				'category1'=>$cate1,
-				'category2'=>$cate2,
+				'gearTypes'=>$gearTypes,
+				'sportTypes'=>$sportTypes,
 				'message'  =>$this->message
 			);
 
@@ -136,27 +140,9 @@ class Product extends Controller
 	*categoryID
 	*output:photoID
 	*/
-	public function uploadImage($model, $file, $photo, $category1ID)
+	public function uploadImage($file, $photo, $gearType)
 	{
-		switch ($category1ID)
-		{
-			case 1:
-				$category1 = "racquet";
-				break;
-			case 2:
-				$category1 = "ball";
-				break;
-			case 3:
-				$category1 = "footwear";
-				break;
-			case 4:
-				$category1 = "clothing";
-				break;
-			case 5:
-				$category1 = "accessory";
-				break;
-		}
-			$target_dir = "../public/images/product/$category1/";
+			$target_dir = "../public/images/product/$gearType/";
 			$target_file= $target_dir.basename($file['name']);
 
 			$uploadOK = 1;
@@ -170,7 +156,7 @@ class Product extends Controller
 				$uploadOK = 0;
 			}
 
-			if(file_exists($target_dir, $file['name']))
+			if(file_exists($target_file))
 			{
 				$this->message .= "Sorry, Image exists!<br>";
 				$uploadOK = 0;
@@ -204,37 +190,30 @@ class Product extends Controller
 			}
 			else
 			{
-				$photoID = $model->uploadImage($photo);
+				$photoDAO = $this->model('PhotoDAO');
+				$photoID  = $photoDAO->addPhoto($photo);
 				if($photoID == false)
 				{
-					$this->message = "Can not insert photo infomation into database!!!";
+					$this->message = "Can not insert photo infomation into Database!!!";
 					$this->error($this->message);
 				}
 				return $photoID;
 			}
 	}
 
-	public function allProducts($params = [])
+	public function manageProducts($params = [])
 	{
 		//use $params directly to get id
-		$productModel = $this->model("ProductModel");
+		$productDAO = $this->model("ProductDAO");
 
-		$products = $productModel->getAll('products');
-		$photos   = $productModel->getAll2('photos','photoID', array('name', 'alt'));
-		$brands   = $productModel->getAll2('brands', 'brandID', array('brandName'));
-		$category1= $productModel->getAll2('category1', 'cate1ID', array('cate1'));
-		$category2= $productModel->getAll2('category2', 'cate2ID', array('cate2'));
-
+		$products = $productDAO->getProducts();
+		
 		if(sizeof($products) > 0) 
 		{
 			$data = array(
-				'title'    => "SportGear-All products",
-				'mainView' => 'products',
+				'title'    => "SportGear-manage products",
+				'mainView' => 'manageProducts',
 				'products' => $products,
-				'photos'   => $photos,
-				'brands'   => $brands,
-				'category1'=> $category1,
-				'category2'=> $category2,
 				'message'  => $this->message
 			);
 

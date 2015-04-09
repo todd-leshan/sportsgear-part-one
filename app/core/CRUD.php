@@ -2,10 +2,11 @@
 
 require_once __DIR__."/DB.php";
 
-class Database
+class CRUD
 {
 	private $_conn;
 
+	//connect to DB
 	public function __construct()
 	{
 		$this->_conn = DB::getConnection();
@@ -47,7 +48,7 @@ class Database
 	}
 
 	/*
-	*insert into database and return the last insert ID
+	*insert into CRUD and return the last insert ID
 	*@param: $conn, $prepareSQL, $param
 	*/
 	public function insert($table, $data)
@@ -80,6 +81,7 @@ class Database
 	/*
 	*check sth's existence
 	*/
+	
 	/*
 	public function isExist($conn, $table, $data)
 	{

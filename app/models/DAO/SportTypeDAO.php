@@ -2,14 +2,14 @@
 
 require_once __DIR__."/../VO/SportTypeVO.php";
 
-class SportTypeDAO extends Database
+class SportTypeDAO extends CRUD
 {
 	public function __construct()
 	{
 		parent::__construct();
 	}
 
-	public function getSportType()
+	public function getSportTypes()
 	{
 		$rows = $this->select("sportTypes");
 

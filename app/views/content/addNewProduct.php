@@ -1,6 +1,12 @@
+<?php 
+if(!isset($_SESSION['staff']))
+{
+	header("Location:".ROOT."staff");
+}
+?>
 <div id="wrapper" class="clearFix">
 
-<form id="addNewProduct" class="mainform" method="post" action="<?php echo ROOT.'product/addNewProducts'; ?>" enctype="multipart/form-data">
+<form id="addNewProduct" class="mainform" method="post" action="<?php echo ROOT.'product/addProducts'; ?>" enctype="multipart/form-data">
 	<fieldset>
 		<legend>Add a new product:</legend>
 		<p>
@@ -28,8 +34,8 @@
 			<option>Please select</option>
 <?php
 		foreach($brands as $brand):
-			$brandID = $brand['brandID'];
-			$brandName = $brand['brandName'];
+			$brandID = $brand->getId();
+			$brandName = $brand->getName();
 ?>
 			<option value="<?php echo $brandID;?>"><?php echo $brandName;?></option>				
 <?php
@@ -46,11 +52,11 @@
 			<select class="form-control" id="category1-select" name="newproduct_cate1">
 			<option>Please select</option>
 <?php
-		foreach($category1 as $cate):
-			$cate1ID = $cate['cate1ID'];
-			$cateName = $cate['cate1'];
+		foreach($gearTypes as $gearType):
+			$gearTypeID   = $gearType->getId();
+			$gearTypeName = $gearType->getName();
 ?>
-			<option value="<?php echo $cate1ID;?>"><?php echo $cateName;?></option>
+			<option value="<?php echo $gearTypeID;?>"><?php echo $gearTypeName;?></option>
 				
 <?php
 		endforeach;
@@ -63,13 +69,13 @@
 		<p class="radio">
 			<label class="mainform-label">*Sports:</label>
 <?php
-		foreach($category2 as $cate):
-			$cate2ID = $cate['cate2ID'];
-			$cate2   = $cate['cate2'];
+		foreach($sportTypes as $sportType):
+			$sportTypeID     = $sportType->getId();
+			$sportTypeName   = $sportType->getName();
 ?>
-			<label for="sport-<?php echo $cate2;?>">
-				<input type="radio" name="newproduct_cate2" id="sport-<?php echo $cate2;?>" value="<?php echo $cate2ID;?>">
-			<?php echo $cate2;?>
+			<label for="sport-<?php echo $sportTypeName;?>">
+				<input type="radio" name="newproduct_cate2" id="sport-<?php echo $sportTypeName;?>" value="<?php echo $sportTypeID;?>">
+			<?php echo $sportTypeName;?>
 			</label>
 					
 				

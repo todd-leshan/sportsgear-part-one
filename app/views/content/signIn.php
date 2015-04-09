@@ -1,5 +1,5 @@
 <div id="wrapper" class="clearFix">
-<form id="signin" method="post" action="<?php echo ROOT.$user.'/signIn'; ?>" class="mainform" novalidate>
+<form id="signin" method="post" action="<?php echo ROOT.$user.'/signIn'; ?>" class="mainform">
 	<fieldset>
 <?php
 	if($user == 'staff')

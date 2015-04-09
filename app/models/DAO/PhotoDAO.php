@@ -2,7 +2,7 @@
 
 require_once __DIR__."/../VO/PhotoVO.php";
 
-class PhotoDAO extends Database
+class PhotoDAO extends CRUD
 {
 	public function __construct()
 	{
@@ -36,30 +36,37 @@ class PhotoDAO extends Database
 
 		$param = array(':name'=>$photoName);
 
-		$row = $this->executeSQL($sql, $param);
+		$rows = $this->executeSQL($sql, $param);
 
-		if(sizeof($row) != 0)
+		if(sizeof($rows) != 0)
 		{
-			return false;
+			$photoID = $rows[0]['id'];
 		}
 
-		return true;
+		return $photoID = 0;
 	}
 
 	/*
-	*insert new photo's info into database
+	*insert new photo's info into CRUD
 	*if succeed, return id
 	*input:
 	*/
-	public function addPhoto($name, $alt, $description)
+	public function addPhoto($photo)
 	{
-		$photo = array(
-			'name'       =>$name,
-			'alt'        =>$alt,
-			'description'=>$description
+		$photoID = $this->isExist($photo['name']);
+
+		if($photoID)
+		{
+			return $photoID;
+		}
+
+		$data = array(
+			'name'       =>$photo['name'],
+			'alt'        =>$photo['alt'],
+			'description'=>$photo['description']
 			);
 
-		$id = $this->insert('photos', $photo);
+		$id = $this->insert('photos', $data);
 
 		return $id;
 	}

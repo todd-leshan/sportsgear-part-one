@@ -8,17 +8,19 @@ class Staff extends Controller
 		//if session is still alive, redirect to staff page
 		if(isset($_SESSION['staff']))
 		{
+			
 			$staff = $_SESSION['staff'];
 
 			$staffID  = $staff['staffID'];
 			$username = $staff['username'];
+
 			$this->profile($staffID, $username);
  		}
  		else
  		{
  			$data = array(
 				'title'   => "SportGear-Staff Sign In",
-				'mainView'=> 'signin',
+				'mainView'=> 'signIn',
 				'user'    => 'staff',
 				'info'    => null
 				);
@@ -36,21 +38,27 @@ class Staff extends Controller
 	{
 		if(isset($_POST['username']) && isset($_POST['password']))
 		{
-			$user = $this->model('UserModel');
+			$staff = $this->model('StaffDAO');
 			$username = $_POST['username'];
 			$password = $_POST['password'];
-			//log in check, if succeed, return the user ID
-			$staffID  = $user->signIn($username, $password);
-			if($staffID)
+			//log in check, return staff object
+			$staff  = $staff->signInCheck($username, $password);
+			if($staff->getId() != 0)
 			{
 				//to staff  profile
 				//set session here
+				$id       = $staff->getId();
+				$username = $staff->getUsername();
+
+				//echo "id is ".$id."<br>";
+				//echo "name is ".$username."<br>";
+				//die();
 
 				$_SESSION['staff'] = array(
-										'staffID' => $staffID,
+										'staffID' => $id,
 										'username'=> $username
 										);
-				$this->profile($staffID, $username);
+				$this->profile($id, $username);
 			}
 			else
 			{

@@ -6,10 +6,10 @@ class StaffVO
 	private $_username;
 	private $_password;
 
-	public function __construct($username, $password, $id = 0)
+	public function __construct($username, $id = 0)
 	{
-		$this->username = $username;
-		$this->password = $password;
+		$this->_username = $username;
+		//$this->password = $password;
 		$this->_id = $id;
 	}
 

@@ -1,9 +1,9 @@
 <?php
 
 require_once __DIR__."/../VO/BrandVO.php";
-//require_once "/../core/Database.php";
+//require_once "/../core/CRUD.php";
 
-class BrandDAO extends Database
+class BrandDAO extends CRUD
 {
 	//private $_conn;
 
