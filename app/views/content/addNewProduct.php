@@ -1,12 +1,6 @@
-<?php 
-if(!isset($_SESSION['staff']))
-{
-	header("Location:".ROOT."staff");
-}
-?>
 <div id="wrapper" class="clearFix">
 
-<form id="addNewProduct" class="mainform" method="post" action="<?php echo ROOT.'product/addProducts'; ?>" enctype="multipart/form-data">
+<form id="addNewProduct" class="mainform" method="post" action="<?php echo ROOT.'staff/addProducts'; ?>" enctype="multipart/form-data">
 	<fieldset>
 		<legend>Add a new product:</legend>
 		<p>

@@ -2,9 +2,20 @@
 
 class Product extends Controller
 {
-	private $_product;
+	private $_productDAO;
+	private $_brandDAO;
+	private $_gearTypeDAO;
+	private $_sportTypeDAO;
 
-	//load all products
+	public function __construct()
+	{
+		$this->_productDAO  = $this->model('ProductDAO');
+		$this->_brandDAO    = $this->model('BrandDAO');
+		$this->_gearTypeDAO = $this->model('gearTypeDAO');
+		$this->_sportTypeDAO= $this->model('sportTypeDAO');
+	}
+
+	//load all products...maybe should do sth else with index()
 	public function index()
 	{
 		$productModel = $this->model("ProductModel");
@@ -37,182 +48,58 @@ class Product extends Controller
 		}
 	}
 
+	/*for product management, check sign in status*/
+	public function isStaff()
+	{
+		if(!isset($_SESSION['staff']))
+		{
+ 			$data = array(
+				'title'   => "SportGear-Staff Sign In",
+				'mainView'=> 'signIn',
+				'user'    => 'staff',
+				'info'    => null
+				);
+
+			$this->view('page', $data);
+		}
+	}
+
 	//load products by category1
 
 	//load products by category2
 
 	//load products by searching
 
-	//how to load products by combining limits
+	//how to load products by combining limit
 
-	/*
-	*add new products
-	*/
-	public function addProducts()
+	//get all products by sport type
+	public function tennis($gearType = null)
 	{
-		//check all data passed here
-		//if data detected, load model
-		$productDAO  = $this->model('ProductDAO');
-		$brandDAO    = $this->model('BrandDAO');
-		$gearTypeDAO = $this->model('gearTypeDAO');
-		$sportTypeDAO= $this->model('sportTypeDAO');
+		$brands    = $this->_brandDAO->getBrands();
+		$gearTypes = $this->_gearTypeDAO->getGearTypes();
+		$sportTypes= $this->_sportTypeDAO->getSportTypes();
 
-		$brands    = $brandDAO->getBrands();
-		$gearTypes = $gearTypeDAO->getGearTypes();
-		$sportTypes= $sportTypeDAO->getSportTypes();
-
-		//photo upload
-		if( 
-			isset($_POST['newproduct_name']) &&
-			isset($_POST['newproduct_price']) &&
-			isset($_POST['newproduct_description']) &&
-			isset($_POST['newproduct_brand']) &&
-			isset($_POST['newproduct_cate1']) &&
-			isset($_POST['newproduct_cate2']) &&
-			isset($_FILES['newproduct_photo']) &&
-			isset($_POST['photo_alt']) &&
-			isset($_POST['photo_description'])
-			)
+		$sportTypeID = $this->getIdByName($sportTypes, 'tennis');
+		
+		if($gearType != null)
 		{
-			$gearTypeID = $_POST['newproduct_cate1'];
-			$gearType   = $gearTypes[$gearTypeID]->getName();
-			$file       = $_FILES['newproduct_photo'];
-			//upload image first to get imageID
-			$photo = array(
-					'name'        => $_FILES['newproduct_photo']['name'],
-					'alt'         => $_POST['photo_alt'],
-					'description' => $_POST['photo_description']
-				);
-			
-			$photoID = $this->uploadImage($file, $photo, $gearType);			
+			$gearTypeID = $this->getIdByName($gearTypes, $gearType);
 
-			//then insert new product
-			$product = array(
-					'name'        => $_POST['newproduct_name'],
-					'price'       => $_POST['newproduct_price'],
-					'description' => $_POST['newproduct_description'],
-					'brandID'     => $_POST['newproduct_brand'],
-					'gearTypeID'  => $gearTypeID,
-					'sportTypeID' => $_POST['newproduct_cate2'],
-					'photoID'     => $photoID
-					);
-			$newProductID = $productDAO->addProduct($product);
-			//die("error: ".$newProductID);
-			if($newProductID == false)
-			{
-				$this->message = 'Add new products failed!<br>You can not have the same product name!';
-			}
-			else
-			{
-				$this->message = "You've added a new product!";
-			}
-			//**************************************
-
-		// $_FILES['newproduct_photo'] is an array ;
-		}
-
-		//if not, go back to the view; or when error found, go back the view with error
-		//if(1!=1){}
-		//always load the add form
-
-		if($brands && $gearTypes && $sportTypes)
-		{
-			$data = array(
-				'title'   => "SportGear-Add new products",
-				'mainView'=> 'addNewProduct',
-				'brands'  => $brands,
-				'gearTypes'=>$gearTypes,
-				'sportTypes'=>$sportTypes,
-				'message'  =>$this->message
-			);
-
-			$this->view('page', $data);
+			$products = $this->_productDAO->
+			//how to write different sql???
 		}
 		else
 		{
-			$this->message = 'Sorry, We are trying to fix this. Please try again!!!';
-			$this->error($this->message);
+			$products = $this->_productDAO->getProductsBySportType($sportTypeID);
 		}
-	}
 
-	/*
-	*input: array contains all info of a photo
-	*categoryID
-	*output:photoID
-	*/
-	public function uploadImage($file, $photo, $gearType)
-	{
-			$target_dir = "../public/images/product/$gearType/";
-			$target_file= $target_dir.basename($file['name']);
-
-			$uploadOK = 1;
-			//better $fileType = $file['type']; => 'image/jpeg'
-			$fileType = pathinfo($target_file, PATHINFO_EXTENSION);
-			//add sth to make sure an image is uploaded
-			$isImage = getimagesize($file['tmp_name']);
-			if($isImage === false)
-			{
-				$this->message .= "Sorry, please upload a real image!<br>";
-				$uploadOK = 0;
-			}
-
-			if(file_exists($target_file))
-			{
-				$this->message .= "Sorry, Image exists!<br>";
-				$uploadOK = 0;
-			}
-
-			if($file['size'] > 2000000)//2mb
-			{
-				$this->message .= "Sorry, Your file is too big!<br>";
-				$uploadOK = 0;
-			}
-
-			$allowedType = array('jpg','gif','jpeg','png');
-			if(!in_array($fileType, $allowedType))
-			{
-				$this->message .= "Sorry, only ".implode(', ', $allowedType)." files are allowed!<br>";
-				$uploadOK = 0;
-			}
-			  
-			if($uploadOK == 0)
-			{
-				$this->error($this->message);
-			}
-
-			$this->message = '';
-
-			//move file to the target directory
-			if(!move_uploaded_file($file['tmp_name'], $target_file))
-			{
-				$this->message = "Photo upload failed!";
-				$this->error($this->message);
-			}
-			else
-			{
-				$photoDAO = $this->model('PhotoDAO');
-				$photoID  = $photoDAO->addPhoto($photo);
-				if($photoID == false)
-				{
-					$this->message = "Can not insert photo infomation into Database!!!";
-					$this->error($this->message);
-				}
-				return $photoID;
-			}
-	}
-
-	public function manageProducts($params = [])
-	{
-		//use $params directly to get id
-		$productDAO = $this->model("ProductDAO");
-
-		$products = $productDAO->getProducts();
 		
+
 		if(sizeof($products) > 0) 
 		{
 			$data = array(
 				'title'    => "SportGear-manage products",
-				'mainView' => 'manageProducts',
+				'mainView' => 'tennis',
 				'products' => $products,
 				'message'  => $this->message
 			);
@@ -226,5 +113,39 @@ class Product extends Controller
 		}
 	}
 
+	public function badminton($gearType = null)
+	{
+		
+	}
 
+	//display a product
+	public function product($params)
+	{
+		$productID = $params;
+
+		$product = $this->_productDAO->getProductById($productID);
+
+		$data = array(
+				'title'    => $product->getName(),
+				'mainView' => 'product',
+				'product' => $product
+			);
+
+		$this->view('page', $data);
+	}
+
+	public function getIdByName($objects, $name)
+	{
+
+		foreach($objects as $object)
+		{
+			if($object->getName() == $name)
+			{
+				return $object->getId();
+			}
+		}
+
+		//do we need to set default id here?
+		return $id = 1;	
+	}
 }

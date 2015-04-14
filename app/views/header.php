@@ -17,7 +17,7 @@
 		<ul>
 			<li><a href="<?php echo ROOT; ?>">Welcome to SportGear!</a></li>
 			<li>
-				<a href="#">TENNIS</a>
+				<a href="<?php echo ROOT.'product/tennis'; ?>">TENNIS</a>
 				<ul  class="drop-down-menu">
 					<li><a href="">Racquet</a></li>
 					<li><a href="">Ball</a></li>
@@ -47,7 +47,7 @@
 </div>
 
 <header class="clearFix">
-	<h1><a href="#">SportGear</a></h1>
+	<h1><a href="<?php echo ROOT; ?>">SportGear</a></h1>
 	<section id="search">
 		<form action="#" method="post">
 			<input type="search" id="site-search" name="site-search" placeholder="Search SportGear" />

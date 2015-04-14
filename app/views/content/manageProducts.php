@@ -1,3 +1,4 @@
+
 <div id="wrapper" class="clearFix">
 
 <table>
@@ -39,7 +40,7 @@ foreach ($products as $product) :
 		<td><?php echo $brandName; ?></td>
 		<td><?php echo $gearTypeName; ?></td>
 		<td><?php echo $sportTypeName; ?></td>
-		<td><a href="<?php echo ROOT.'product/editProduct/'.$productID; ?>">Edit</a></td>
+		<td><a href="<?php echo ROOT.'staff/editProduct/'.$productID; ?>">Edit</a></td>
 	</tr>
 <?php
 endforeach;

@@ -1,25 +1,28 @@
 <?php
 
 require_once __DIR__."/../VO/ProductVO.php";
-require_once __DIR__."/../VO/BrandVO.php";
+
 require_once __DIR__."/../VO/PhotoVO.php";
 require_once __DIR__."/../VO/GearTypeVO.php";
 require_once __DIR__."/../VO/SportTypeVO.php"; 
 
+require_once __DIR__."/../DAO/BrandDAO.php";
+
 class ProductDAO extends CRUD
 {
 	//private $_photoDAO;
-	//private $_brandDAO;
+	private $_brandDAO;
 
 	public function __construct()
 	{
 		parent::__construct();
+		$this->_brandDAO = new BrandDAO();
 	}
 
 	public function getProducts()
 	{
 		$photos     = $this->getPhotos();
-		$brands     = $this->getBrands();
+		$brands     = $this->_brandDAO->getBrands();
 		$gearTypes  = $this->getGearTypes();
 		$sportTypes = $this->getSportTypes();
 
@@ -44,9 +47,9 @@ class ProductDAO extends CRUD
 	{
 		$oldProductID = $this->isExist($product['name']);
 
-		if($oldProductID)
+		if($oldProductID > 0)
 		{
-			return false;
+			return 0;
 		}
 
 		$newProductID = $this->insert('products', $product);
@@ -67,14 +70,20 @@ class ProductDAO extends CRUD
 
 		$rows = $this->executeSQL($sql, $param);
 
+		$productID = 0;
 		if(sizeof($rows) != 0)
 		{
 			$productID = $rows[0]['id'];
 		}
 
-		return $productID = 0;
+		return $productID;
 	}
 
+	public function getProductbyId($productID)
+	{
+		$sql = "SELECT *
+				FROM ";
+	}
 	/*
 	*
 	*/
@@ -83,33 +92,40 @@ class ProductDAO extends CRUD
 
 	}
 
-	public function getProductsByGearType($gearType)
+	public function getProductsByGearType($sportTypeID, $gearTypeID)
 	{
 
 	}
 
-	public function getProductsBySportType($sportType)
+	public function getProductsBySportType($sportTypeID)
 	{
+		$photos     = $this->getPhotos();
+		$brands     = $this->_brandDAO->getBrands();
+		$gearTypes  = $this->getGearTypes();
+		$sportTypes = $this->getSportTypes();
 
+		$sql = "SELECT *
+				FROM products
+				WHERE sportTypeID=:sport";
+
+		$param = array(':sport'=>$sportTypeID);
+
+		$rows = $this->executeSQL($sql, $param);
+
+		$products = array();
+
+		foreach($rows as $row)
+		{
+			$products[$row['id']] = new ProductVO($row['name'], $row['price'], $row['description'], $brands[$row['brandID']], $photos[$row['photoID']], $gearTypes[$row['gearTypeID']], $sportTypes[$row['sportTypeID']], $row['id']);
+		}
+		
+
+		return $products;
 	}
 
 	public function searchProductsByKeyword($keyword)
 	{
 
-	}
-
-	public function getBrands()
-	{
-		$rows = $this->select("brands");
-
-		$brands = array();
-
-		foreach ($rows as $row) 
-		{
-			$brands[$row['id']] = new BrandVO($row['id'], $row['name']);
-		}
-
-		return $brands;
 	}
 
 	public function getPhotos()

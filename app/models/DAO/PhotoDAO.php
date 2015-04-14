@@ -41,6 +41,7 @@ class PhotoDAO extends CRUD
 		if(sizeof($rows) != 0)
 		{
 			$photoID = $rows[0]['id'];
+			return $photoID;
 		}
 
 		return $photoID = 0;
@@ -55,7 +56,7 @@ class PhotoDAO extends CRUD
 	{
 		$photoID = $this->isExist($photo['name']);
 
-		if($photoID)
+		if($photoID > 0)
 		{
 			return $photoID;
 		}

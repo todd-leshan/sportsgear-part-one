@@ -40,4 +40,10 @@ class Test extends Controller
 			echo "bad";
 		}
 	}
+
+	public function sql()
+	{
+		$data = array(
+			);
+	}
 }
